@@ -28,18 +28,35 @@
 
 ## 三、项目结构
 vue3-ts-vite-template/
-├── src/
-│   ├── hooks/          # 自定义 Hooks
-│   ├── view/           # 页面组件（如课堂场景页面）
-│   ├── components/     # 通用组件（待扩展）
-│   ├── assets/         # 静态资源（样式、图标等）
-│   ├── App.vue         # 根组件
-│   └── main.ts         # 入口文件
-├── .gitignore          # Git 忽略配置
-├── package.json        # 依赖与脚本配置
-├── vite.config.ts      # Vite 构建配置
-├── tsconfig.json       # TypeScript 配置
-└── README.md           # 项目说明文档
+├── .gitignore               # Git 忽略规则配置
+├── .vscode/                  # VSCode 开发配置（如推荐插件）
+│   └── extensions.json       # 推荐安装的扩展列表
+├── README.md                 # 项目说明文档
+├── eslintrc.cjs              # ESLint 代码检查配置
+├── index.html                # 应用入口 HTML
+├── package.json              # 依赖管理与脚本配置
+├── pnpm-lock.yaml            # pnpm 依赖版本锁定文件
+├── postcss.config.cjs        # PostCSS 样式处理配置
+├── prettier.config.cjs       # Prettier 代码格式化配置
+├── public/                   # 静态资源（构建时直接复制）
+│   └── vite.svg              # Vite 图标
+├── src/                      # 核心业务代码
+│   ├── App.vue               # 根组件
+│   ├── assets/               # 需构建处理的静态资源
+│   │   ├── styles/           # 全局样式文件
+│   │   └── vue.svg           # Vue 图标
+│   ├── auto-imports.d.ts     # 自动导入 API 类型声明
+│   ├── components/           # 通用组件（如按钮、表单）
+│   ├── hooks/                # 自定义 Hooks（逻辑复用）
+│   ├── main.scss             # 全局 SCSS 样式入口
+│   ├── main.ts               # 应用入口文件
+│   ├── view/                 # 页面级组件（如课堂页）
+│   │   └── classroom.vue     # 课堂场景页面
+│   └── vite-env.d.ts         # Vite 环境变量类型声明
+├── tsconfig.app.json         # TypeScript 应用配置
+├── tsconfig.json             # TypeScript 全局配置
+├── tsconfig.node.json        # TypeScript Node.js 配置
+└── vite.config.ts            # Vite 构建配置
 
 
 ## 四、运行命令
