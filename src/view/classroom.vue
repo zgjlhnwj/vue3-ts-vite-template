@@ -1,23 +1,33 @@
 <template>
   <div class="zoom-in">
-    <div class="head-nav">
-      Vue 3 ts vite scss 模版项目
-    </div>
+    <div class="head-nav">Vue 3 + Pinia 示例</div>
     <div class="main-content">
-      <div class="left">
-        
-      </div>
-      <div class="right">
-        <div class="my-seat">
-         
-
-        </div>
+      <div class="counter">
+        <p>当前计数：{{ counterStore.count }}</p>
+        <button @click="counterStore.increment">+1</button>
+        <button @click="counterStore.decrement">-1</button>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useCounterStore } from '@/store/counter'
+
+const counterStore = useCounterStore()
+</script>
+
+<style scoped lang="scss">
+.counter {
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  button {
+    margin: 0 0.5rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+}</style>
 
 <style scoped lang="scss">
 .zoom-in {
