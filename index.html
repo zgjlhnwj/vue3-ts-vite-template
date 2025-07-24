@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + Vue + TS</title>
+    <script>
+      function setRemUnit() {
+        console.log('setRemUnit called');
+        const designWidth = 1366; // 设计稿宽度
+        const rootSize = 13.66;   // 基准根字体大小
+        const clientWidth = document.documentElement.clientWidth;
+        
+        // 限制最小宽度为1024px，避免在过小屏幕上元素过大
+        const width = Math.max(1024, Math.min(clientWidth, 1920));
+        
+        // 计算实际根字体大小
+        const rem = (width / designWidth) * rootSize;
+        
+        // 设置根字体大小
+        document.documentElement.style.fontSize = `${rem}px`;
+      }
+      
+      // 初始化
+      setRemUnit();
+      
+      // 窗口大小变化时重新计算
+      window.addEventListener('resize', setRemUnit);
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

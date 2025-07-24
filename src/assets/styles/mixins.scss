@@ -1,0 +1,21 @@
+// src/styles/mixins.scss
+@mixin responsive($breakpoint) {
+    @if map-has-key($breakpoints, $breakpoint) {
+      $min-width: map-get($breakpoints, $breakpoint);
+      @media (min-width: $min-width) {
+        @content;
+      }
+    } @else {
+      @warn "未知断点: #{$breakpoint}";
+    }
+  }
+  
+  @mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  @mixin transition($properties: all, $duration: 0.3s, $timing: ease) {
+    transition: $properties $duration $timing;
+  }

@@ -1,0 +1,36 @@
+// src/styles/variables.scss
+$primary-color: #165DFF;
+$secondary-color: #0FC6C2;
+$text-color: #333;
+$text-color-light: #666;
+$text-color-lighter: #999;
+$border-color: #E5E6EB;
+$bg-color: #F7F8FA;
+$success-color: #52C41A;
+$warning-color: #FAAD14;
+$error-color: #F5222D;
+
+$base-font-size: 14px;
+$base-line-height: 1.5;
+$base-spacing: 16px;
+
+$breakpoints: (
+  'xs': 0,
+  'sm': 576px,
+  'md': 768px,
+  'lg': 992px,
+  'xl': 1200px,
+  'xxl': 1400px
+);
+
+
+$classroom-width: 1366px;
+$classroom-height: 768px;
+$classroom-bg-color: #888;
+
+
+$croom-left-module-width: 928px;
+$croom-left-module-height: 696px;
+
+$croom-right-module-width: 260px;
+$croom-right-module-height: 696px;
