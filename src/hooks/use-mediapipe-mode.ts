@@ -3,41 +3,40 @@ import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
 import { Pose, POSE_CONNECTIONS } from '@mediapipe/pose';
 import { FaceMesh, FACEMESH_TESSELATION, FACEMESH_RIGHT_EYE, FACEMESH_LEFT_EYE, FACEMESH_RIGHT_EYEBROW, FACEMESH_LEFT_EYEBROW, FACEMESH_LIPS, FACEMESH_FACE_OVAL } from '@mediapipe/face_mesh';
 import { throttle } from 'lodash-es';
-import { ref, Ref } from 'vue';
 
 // 课堂模式 - 肢体姿势类型
 export enum BODY_POSE_TYPE {
-    RIGHT_HAND_UP = 'right_hand_up', // 右手向上
-    LEFT_HAND_UP = 'left_hand_up', // 左手向上
-    BOTH_HANDS_UP = 'both_hands_up', // 新增：双手向上
-    NORMAL = 'normal', // 正常
-  }
+  RIGHT_HAND_UP = 'right_hand_up', // 右手向上
+  LEFT_HAND_UP = 'left_hand_up', // 左手向上
+  BOTH_HANDS_UP = 'both_hands_up', // 新增：双手向上
+  NORMAL = 'normal', // 正常
+}
 
-  // 课堂模式 - 面部旋转方向
-  export enum ROTATE_DIRECTION {
-    RIGHT_ROTATE = 'RIGHT_ROTATE', // 右旋转
-    LEFT_ROTATE = 'LEFT_ROTATE', // 左旋转
-    NONE_ROTATE = 'NONE_ROTATE', // 无旋转
-    NOT_FIND_FACE = 'NONE_FACE', // 未找到人脸
-  }
+// 课堂模式 - 面部旋转方向
+export enum ROTATE_DIRECTION {
+  RIGHT_ROTATE = 'RIGHT_ROTATE', // 右旋转
+  LEFT_ROTATE = 'LEFT_ROTATE', // 左旋转
+  NONE_ROTATE = 'NONE_ROTATE', // 无旋转
+  NOT_FIND_FACE = 'NONE_FACE', // 未找到人脸
+}
 
-  // 关键点索引 - 肢体
-  export enum BODY_POSE_KEY_POINT_INDEX {
-    NOSE = 0,
-    LEFT_SHOULDER = 11,
-    RIGHT_SHOULDER = 12,
-    LEFT_ELBOW = 13,
-    RIGHT_ELBOW = 14,
-    LEFT_WRIST = 15,
-    RIGHT_WRIST = 16,
-  }
+// 关键点索引 - 肢体
+export enum BODY_POSE_KEY_POINT_INDEX {
+  NOSE = 0,
+  LEFT_SHOULDER = 11,
+  RIGHT_SHOULDER = 12,
+  LEFT_ELBOW = 13,
+  RIGHT_ELBOW = 14,
+  LEFT_WRIST = 15,
+  RIGHT_WRIST = 16,
+}
 
-  // 关键点索引 - 面部
-  export enum FACE_KEY_POINT_INDEX {
-    LEFT_SIDE = 127, // 左侧颞部,
-    RIGHT_SIDE = 356, // 右侧颞部,
-    NOSE_TIP = 1, // 鼻尖
-  }
+// 关键点索引 - 面部
+export enum FACE_KEY_POINT_INDEX {
+  LEFT_SIDE = 127, // 左侧颞部,
+  RIGHT_SIDE = 356, // 右侧颞部,
+  NOSE_TIP = 1, // 鼻尖
+}
 
 class MediapipeCombined {
   private pose: Pose | undefined;
@@ -139,6 +138,8 @@ class MediapipeCombined {
   // 处理 Pose 检测结果
   private onPoseResults(results: any) {
     this.clearCanvas();
+
+    // console.error('onPoseResults', results);
     // 如果检测到姿势
     if (results.poseLandmarks) {
       // 绘制姿势关键点和连接线
@@ -173,16 +174,16 @@ class MediapipeCombined {
     // 判断右手是否举起
     const isRightHandUp =
       landmarks[BODY_POSE_KEY_POINT_INDEX.RIGHT_WRIST]?.y <
-        landmarks[BODY_POSE_KEY_POINT_INDEX.RIGHT_SHOULDER]?.y &&
+      landmarks[BODY_POSE_KEY_POINT_INDEX.RIGHT_SHOULDER]?.y &&
       landmarks[BODY_POSE_KEY_POINT_INDEX.RIGHT_ELBOW]?.y <
-        landmarks[BODY_POSE_KEY_POINT_INDEX.RIGHT_SHOULDER]?.y;
+      landmarks[BODY_POSE_KEY_POINT_INDEX.RIGHT_SHOULDER]?.y;
 
     // 判断左手是否举起
     const isLeftHandUp =
       landmarks[BODY_POSE_KEY_POINT_INDEX.LEFT_WRIST]?.y <
-        landmarks[BODY_POSE_KEY_POINT_INDEX.LEFT_SHOULDER]?.y &&
+      landmarks[BODY_POSE_KEY_POINT_INDEX.LEFT_SHOULDER]?.y &&
       landmarks[BODY_POSE_KEY_POINT_INDEX.LEFT_ELBOW]?.y <
-        landmarks[BODY_POSE_KEY_POINT_INDEX.LEFT_SHOULDER]?.y;
+      landmarks[BODY_POSE_KEY_POINT_INDEX.LEFT_SHOULDER]?.y;
 
     if (isRightHandUp) {
       // 如果右手举起，则更新当前姿势类型
@@ -198,36 +199,37 @@ class MediapipeCombined {
 
   // 处理 FaceMesh 检测结果
   private onFaceMeshResults(results: any) {
+    // console.error('onFaceMeshResults', results);
     // this.clearCanvas();
     // 如果检测到面部
     if (results.multiFaceLandmarks) {
       // 绘制面部关键点和连接线
-    //   for (const landmarks of results.multiFaceLandmarks) {
-    //     if (this.outputCanvasCtx) {
-    //       drawConnectors(this.outputCanvasCtx, landmarks, FACEMESH_TESSELATION, {
-    //         color: '#C0C0C070',
-    //         lineWidth: 1,
-    //       });
-    //       drawConnectors(this.outputCanvasCtx, landmarks, FACEMESH_RIGHT_EYE, {
-    //         color: '#FF3030',
-    //       });
-    //       drawConnectors(this.outputCanvasCtx, landmarks, FACEMESH_RIGHT_EYEBROW, {
-    //         color: '#FF3030',
-    //       });
-    //       drawConnectors(this.outputCanvasCtx, landmarks, FACEMESH_LEFT_EYE, {
-    //         color: '#30FF30',
-    //       });
-    //       drawConnectors(this.outputCanvasCtx, landmarks, FACEMESH_LEFT_EYEBROW, {
-    //         color: '#30FF30',
-    //       });
-    //       drawConnectors(this.outputCanvasCtx, landmarks, FACEMESH_FACE_OVAL, {
-    //         color: '#E0E0E0',
-    //       });
-    //       drawConnectors(this.outputCanvasCtx, landmarks, FACEMESH_LIPS, {
-    //         color: '#FF8000',
-    //       });
-    //     }
-    //   }
+      //   for (const landmarks of results.multiFaceLandmarks) {
+      //     if (this.outputCanvasCtx) {
+      //       drawConnectors(this.outputCanvasCtx, landmarks, FACEMESH_TESSELATION, {
+      //         color: '#C0C0C070',
+      //         lineWidth: 1,
+      //       });
+      //       drawConnectors(this.outputCanvasCtx, landmarks, FACEMESH_RIGHT_EYE, {
+      //         color: '#FF3030',
+      //       });
+      //       drawConnectors(this.outputCanvasCtx, landmarks, FACEMESH_RIGHT_EYEBROW, {
+      //         color: '#FF3030',
+      //       });
+      //       drawConnectors(this.outputCanvasCtx, landmarks, FACEMESH_LEFT_EYE, {
+      //         color: '#30FF30',
+      //       });
+      //       drawConnectors(this.outputCanvasCtx, landmarks, FACEMESH_LEFT_EYEBROW, {
+      //         color: '#30FF30',
+      //       });
+      //       drawConnectors(this.outputCanvasCtx, landmarks, FACEMESH_FACE_OVAL, {
+      //         color: '#E0E0E0',
+      //       });
+      //       drawConnectors(this.outputCanvasCtx, landmarks, FACEMESH_LIPS, {
+      //         color: '#FF8000',
+      //       });
+      //     }
+      //   }
       // 使用节流后的函数检测面部转动
       this.throttledDetectFaceRotation(results.multiFaceLandmarks[0]);
     }
@@ -261,6 +263,22 @@ class MediapipeCombined {
     } else {
       this.currFaceRotateDirection.value = ROTATE_DIRECTION.NONE_ROTATE;
     }
+  }
+
+  getCreateVideoStream() {
+    return new Promise((resolve, reject) => {
+      navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: 'user',
+          width: { ideal: 640 },
+          height: { ideal: 480 }
+        }
+      }).then((stream) => {
+        resolve(stream);
+      }).catch((err) => {
+        console.error("摄像头访问失败:", err);
+      });
+    })
   }
 }
 

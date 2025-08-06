@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #childVideo {
+            width: 300px;
+            height: 300px;
+            background-color: beige;
+        }
+    </style>
+</head>
+<body>
+    <!-- 子页面 child.html -->
+<video id="childVideo" autoplay></video>
+</body>
+</html>
+<script>
+
+    setTimeout(() => {
+        
+        const stream = window.parent.sharedStream;
+        const videoElement = document.getElementById('childVideo');
+        videoElement.srcObject = stream; // 绑定到video元素
+        debugger
+    }, 5000);
+
+    
+// 子页面
+window.addEventListener('message', (event) => {
+  if (event.data.type === 'stream') {
+    const receivedStream = new MediaStream(event.data.tracks);
+    videoElement.srcObject = receivedStream; // 绑定到video元素
+  }
+});
+</script>

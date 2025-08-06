@@ -1,8 +1,9 @@
 <template>
   <div class="container mx-auto px-4 py-8">
     <nav class="nav-container">
-      <router-link to="/" class="nav-link">首页</router-link>
-      <router-link to="/about" class="nav-link">关于</router-link>
+      <router-link to="/FaceMesh" class="nav-link">面部识别</router-link>
+      <router-link to="/TasksVisionHand" class="nav-link">自定义-手势</router-link>
+      <router-link to="/MediapipeHolisticView" class="nav-link">整体姿势</router-link>
     </nav>
     <router-view />
   </div>
